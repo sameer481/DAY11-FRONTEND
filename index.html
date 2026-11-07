@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <!-- Essential Viewport Meta Tag for RWD -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 11 - Responsive Web Design (RWD) Showcase</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #1e293b;
+      line-height: 1.6;
+      background: #f8fafc;
+    }
+    .wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem 3rem;
+      background: #ffffff;
+      min-height: 100vh;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    }
+    /* Dynamic Viewport Bar */
+    .viewport-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #0f172a;
+      color: #fff;
+      padding: 0.6rem 1rem;
+      border-radius: 6px;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+    .badge {
+      padding: 0.2rem 0.6rem;
+      border-radius: 9999px;
+      font-weight: 700;
+      font-size: 0.75rem;
+      background: #10b981;
+    }
+    /* Navigation */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid #e2e8f0;
+      position: relative;
+    }
+    .brand {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #2563eb;
+    }
+    .hamburger {
+      display: block;
+      background: none;
+      border: 1px solid #cbd5e1;
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      font-size: 1.25rem;
+      cursor: pointer;
+    }
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      padding: 1rem;
+      list-style: none;
+      gap: 0.75rem;
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+      z-index: 50;
+    }
+    .nav-links.active {
+      display: flex;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: #475569;
+      font-weight: 500;
+    }
+    /* Hero with clamp() */
+    .hero {
+      text-align: center;
+      padding: clamp(2rem, 6vw, 5rem) 0;
+    }
+    .hero-tag {
+      display: inline-block;
+      padding: 0.35rem 0.85rem;
+      background: #dbeafe;
+      color: #1e40af;
+      font-weight: 600;
+      font-size: 0.85rem;
+      border-radius: 9999px;
+      margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-size: clamp(1.75rem, 4vw + 1rem, 3.25rem);
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      font-size: clamp(1rem, 2vw + 0.5rem, 1.25rem);
+      color: #475569;
+      max-width: 680px;
+      margin: 0 auto 2rem;
+    }
+    .cta-btn {
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      padding: 0.85rem 1.75rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    /* Cards */
+    .cards-section {
+      padding: 3rem 0;
+      border-top: 1px solid #e2e8f0;
+    }
+    .section-title {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .cards-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.75rem;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    }
+    .card h3 {
+      margin-bottom: 0.5rem;
+      color: #0f172a;
+    }
+    .card p {
+      color: #475569;
+      margin-bottom: 1rem;
+    }
+    .code-box {
+      font-family: monospace;
+      font-size: 0.85rem;
+      background: #f1f5f9;
+      padding: 0.5rem;
+      border-radius: 6px;
+      color: #2563eb;
+    }
+    /* Responsive Media */
+    .media-card {
+      margin: 3rem 0;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .media-box {
+      aspect-ratio: 16 / 9;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: bold;
+      font-family: monospace;
+      font-size: 1.25rem;
+    }
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 2rem 0 1rem;
+      border-top: 1px solid #e2e8f0;
+      color: #64748b;
+      font-size: 0.9rem;
+    }
+
+    /* Media Queries: Mobile First */
+    @media (min-width: 640px) {
+      .cards-grid {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+      .card {
+        flex: 1 1 calc(50% - 1.5rem);
+      }
+    }
+    @media (min-width: 1024px) {
+      .hamburger {
+        display: none;
+      }
+      .nav-links {
+        display: flex;
+        position: static;
+        flex-direction: row;
+        background: none;
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        gap: 1.5rem;
+      }
+      .card {
+        flex: 1 1 calc(33.333% - 1.5rem);
+      }
+      .media-card {
+        flex-direction: row;
+        align-items: center;
+        padding: 2.5rem;
+      }
+      .media-box, .media-info {
+        flex: 1 1 50%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <!-- Viewport width counter -->
+    <div class="viewport-bar">
+      <span>Screen Width: <strong id="widthVal">1024px</strong></span>
+      <span class="badge" id="bpBadge">Desktop (≥1024px)</span>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <div class="brand">RespWeb</div>
+      <button class="hamburger" id="menuToggle" aria-label="Toggle menu">☰</button>
+      <ul class="nav-links" id="navMenu">
+        <li><a href="#hero">Overview</a></li>
+        <li><a href="#cards">Pillars</a></li>
+        <li><a href="#media">Media</a></li>
+      </ul>
+    </nav>
+
+    <!-- Hero -->
+    <header id="hero" class="hero">
+      <span class="hero-tag">Day 11: Responsiveness Concepts</span>
+      <h1>Fluid Layouts for Every Screen</h1>
+      <p>Using CSS clamp(), flexible units (rem, %, vw), and mobile-first media queries to build adaptable, modern interfaces.</p>
+      <button class="cta-btn" onclick="alert('Resize your browser window to test the breakpoints!')">Test Responsiveness</button>
+    </header>
+
+    <!-- Cards -->
+    <section id="cards" class="cards-section">
+      <div class="section-title">
+        <h2>The 3 Pillars of RWD</h2>
+        <p>Adapting smoothly across Mobile, Tablet, and Desktop</p>
+      </div>
+      <div class="cards-grid">
+        <div class="card">
+          <h3>1. Fluid Grids</h3>
+          <p>Dimensions defined with proportional percentages rather than rigid pixels.</p>
+          <div class="code-box">width: min(100%, 1200px);</div>
+        </div>
+        <div class="card">
+          <h3>2. Media Queries</h3>
+          <p>Targeting specific screen widths to reorder or restyle elements cleanly.</p>
+          <div class="code-box">@media (min-width: 768px)</div>
+        </div>
+        <div class="card">
+          <h3>3. Flexible Media</h3>
+          <p>Images and media scale to fit without overflowing parent container boundaries.</p>
+          <div class="code-box">max-width: 100%; height: auto;</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Media Showcase -->
+    <section id="media">
+      <div class="media-card">
+        <div class="media-box">aspect-ratio: 16 / 9</div>
+        <div class="media-info">
+          <h3>Modern Responsive Tools</h3>
+          <p style="color: #475569; margin: 0.75rem 0;">
+            Features like <code>aspect-ratio</code> preserve video and banner height/width relationships, eliminating Cumulative Layout Shift (CLS) on all devices.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>Day 11 Frontend - Responsiveness Concepts & Codes</p>
+    </footer>
+  </div>
+
+  <script>
+    const menuToggle = document.getElementById('menuToggle');
+    const navMenu = document.getElementById('navMenu');
+    const widthVal = document.getElementById('widthVal');
+    const bpBadge = document.getElementById('bpBadge');
+
+    menuToggle.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+      menuToggle.textContent = navMenu.classList.contains('active') ? '✕' : '☰';
+    });
+
+    function updateWidth() {
+      const w = window.innerWidth;
+      widthVal.textContent = w + 'px';
+      if (w < 640) {
+        bpBadge.textContent = 'Mobile (<640px)';
+        bpBadge.style.backgroundColor = '#ef4444';
+      } else if (w < 1024) {
+        bpBadge.textContent = 'Tablet (640px - 1023px)';
+        bpBadge.style.backgroundColor = '#f59e0b';
+      } else {
+        bpBadge.textContent = 'Desktop (≥1024px)';
+        bpBadge.style.backgroundColor = '#10b981';
+      }
+    }
+    window.addEventListener('resize', updateWidth);
+    updateWidth();
+  </script>
+</body>
+</html>
